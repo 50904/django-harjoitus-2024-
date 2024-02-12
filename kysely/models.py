@@ -1,5 +1,8 @@
 from django.db import models
 
+from django.db import models
+from django.utils import timezone
+
 
 class Kysymys(models.Model):
     teksti = models.CharField(max_length=200)
@@ -12,6 +15,9 @@ class Kysymys(models.Model):
     def __str__(self):
         return self.teksti
 
+    def onko_julkaistu_lähiaikoina(self):
+        return self.pub_date >= timezone.now() - datetime.timedelta(days=1)
+       
 
 class Vaihtoehto(models.Model):
     kysymys = models.ForeignKey(Kysymys, on_delete=models.CASCADE)
